@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+}
+
+section {
+    display: flex;
+    width: 100%;
+}
+
+section > div h1 {
+    background-color: slategray;
+    margin: 0;
+    padding: 1rem;
+}
+
+section > div > div {
+    height: 90vh;
+    margin-left: 1rem;
+    overflow-y: scroll;
+}
+
+#matches, #users {
+    width: 20%;
+}
+
+#users {
+    border-left: 1rem solid white;
+}
+
+#messages {
+    border-left: 1rem solid white;
+    width: 60%;
+}
+
+#messages > div {
+    border: 0;
+    width: calc(100% - 1rem);
+}

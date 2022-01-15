@@ -1,0 +1,33 @@
+{
+    "extends": ["airbnb"],
+    "rules": {
+        "comma-dangle": [
+            "error", 
+            "always-multiline"
+        ],
+        "linebreak-style": "off",
+        "no-console": "off",
+        "no-plusplus": "off",
+        "no-restricted-syntax": [
+            "error",
+            {
+            "selector": "CallExpression[callee.object.name=\"console\"][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+            "message": "Unexpected property on console object was called"
+            }
+        ],
+        "no-useless-catch": "off",
+        "no-void": "off",        
+        "max-len": [
+            2, 
+            140, 
+            4, 
+            {
+                "ignoreUrls": true
+            }
+        ],
+        "strict": [
+            "error", 
+            "global"
+        ]
+    }
+}

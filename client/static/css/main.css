@@ -1,38 +1,68 @@
 body {
     margin: 0;
+    min-width: 60rem;
 }
 
 section {
     display: flex;
-    width: 100%;
 }
 
-section > div h1 {
-    background-color: slategray;
-    margin: 0;
-    padding: 1rem;
+div > h1 {
+  background-color: slategray;
+  margin: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
 }
 
-section > div > div {
-    height: 90vh;
-    margin-left: 1rem;
-    overflow-y: scroll;
+ul {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
-#matches, #users {
+li {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #dddddd;
+}
+
+#users, #matches {
     width: 20%;
 }
 
-#users {
-    border-left: 1rem solid white;
+#users, #messages > *, #matches {
+  min-width: 15rem;
 }
 
 #messages {
-    border-left: 1rem solid white;
     width: 60%;
 }
 
 #messages > div {
-    border: 0;
-    width: calc(100% - 1rem);
+  width: 30%;
+}
+
+#messages > #conversation {
+  width: 70%;
+}
+
+.scrollable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100vh - 3.7rem);
+}
+@media (max-width: 60rem) {
+  .scrollable {
+    height: calc(100vh - 4.8rem);
+  }
+}
+
+#inbox_list.scrollable, #outbox_list.scrollable {
+  height: calc(50vh - 3.7rem);
+}
+
+@media (max-width: 60rem) {
+  #inbox_list.scrollable, #outbox_list.scrollable {
+    height: calc(50vh - 4.25rem);
+  }
 }

@@ -10,17 +10,31 @@
     </head>
     <body>
         <section>
-            <div id="matches">
-                <h1>Matches</h1>
-                <div id="matches_list"></div>
-            </div>
-            <div id="messages">
-                <h1>Messages</h1>
-                <div id="messages"></div>
-            </div>
             <div id="users">
                 <h1>Users</h1>
-                <div id="users_list"></div>
+                <ul id="users_list" class="scrollable"></ul>
+            </div>
+            <section id="messages">
+                <div>
+                    <div id="inbox">
+                        <h1>Inbox</h1>
+                        <ul id="inbox_list" class="scrollable"></ul>
+                    </div>
+                    <div id="outbox">
+                        <h1>Outbox</h1>
+                        <ul id="outbox_list" class="scrollable"></ul>
+                    </div>
+                </div>
+                <div id="conversation">
+                    <h1>conversation</h1>
+                    <div>
+
+                    </div>
+                </div>
+            </section>
+            <div id="matches">
+                <h1>Matches</h1>
+                <ul id="matches_list" class="scrollable"></ul>
             </div>
         </section>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>

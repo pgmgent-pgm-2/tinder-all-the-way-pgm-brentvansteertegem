@@ -46,23 +46,33 @@ li {
   width: 70%;
 }
 
-.scrollable {
-  overflow-y: scroll;
-  overflow-x: hidden;
+#conversation > div, .scrollable {
   height: calc(100vh - 3.7rem);
 }
 @media (max-width: 60rem) {
-  .scrollable {
+  #conversation > div, .scrollable {
     height: calc(100vh - 4.8rem);
   }
+}
+
+.scrollable {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #inbox_list.scrollable, #outbox_list.scrollable {
   height: calc(50vh - 3.7rem);
 }
-
 @media (max-width: 60rem) {
   #inbox_list.scrollable, #outbox_list.scrollable {
     height: calc(50vh - 4.25rem);
   }
+}
+
+#conversation_chat {
+  height: calc(100% - 5rem);
+}
+
+#add_message {
+  height: 5rem;
 }

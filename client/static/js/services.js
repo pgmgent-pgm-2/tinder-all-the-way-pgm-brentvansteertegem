@@ -34,7 +34,15 @@ function TinderApi () {
     }
   };
 
+  // Get all messages between two users
   this.getConversationBetweenUsers = async (userId, friendId) => {
+    try {
+      const response = await fetch(`${TINDER_BASE_PATH}/users/${userId}/messages?type=conversation&friendId=${friendId}`);
+      const data = await response.json();
+      return data.filter((msg) => msg.senderId === userId && msg.receiverId === friendId || msg.senderId === friendId && msg.receiverId === userId);
+    } catch (error) {
+      console.log('An error occured!', error);
+    }
   };
 
   this.addMessageBetweenUsers = async (userId, friendId, message) => {

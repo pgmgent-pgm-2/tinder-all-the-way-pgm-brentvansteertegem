@@ -49,6 +49,21 @@ const getUsers = () => {
   }
 };
 
+// Get all messages from a specific user
+const getUserById = (userId) => {
+  try {
+    const users = readDataFromUsersFile();
+    // Filter users based on user id
+    const user = users.filter((u) => u.id === userId);
+    if (!user) {
+      throw new HTTPError(`Can't find user with id:'${userId}'`, 404);
+    }
+    return user;
+  } catch (error) {
+    throw new HTTPError('Can\'t get users!', 500);
+  }
+};
+
 // Read data from messages file
 const readDataFromMessagesFile = () => readDataFromFile(filePathMessages);
 
@@ -98,6 +113,7 @@ const getMessagesFromUser = (userId) => {
 // Export all the methods of the data service
 module.exports = {
   getUsers,
+  getUserById,
   getMessages,
   getMessagesFromUser,
 };

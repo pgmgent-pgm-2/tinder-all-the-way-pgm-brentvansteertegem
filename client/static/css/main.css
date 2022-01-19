@@ -76,3 +76,7 @@ li {
 #add_message {
   height: 5rem;
 }
+
+.selected {
+  background-color: #bbbbcc;
+}

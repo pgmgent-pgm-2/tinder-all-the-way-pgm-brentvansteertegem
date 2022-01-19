@@ -22,7 +22,16 @@ const getUsers = (req, res, next) => {
 Get a specific user
 */
 const getUserById = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get userId from url
+    const { userId } = req.params;
+    // Get messages from user from dataService
+    const user = dataService.getUserById(userId);
+    // Send response
+    res.status(200).json(user);
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 /*

@@ -12,6 +12,17 @@ function TinderApi () {
     }
   };
 
+  // Get a specific user
+  this.getUserById = async (userId) => { 
+    try {
+      const response = await fetch(`${TINDER_BASE_PATH}/users/:${userId}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log('An error occured!', error);
+    }
+  };
+
   // Get all received messages from a specific user
   this.getReceivedMessagesFromUser = async (userId) => {
     try {

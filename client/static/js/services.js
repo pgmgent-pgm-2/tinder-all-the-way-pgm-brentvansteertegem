@@ -60,6 +60,13 @@ function TinderApi () {
   };
 
   this.getMatchesForUser = async (userId) => {
+    try {
+      const response = await fetch(`${TINDER_BASE_PATH}/users/${userId}/matches`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log('An error occured!', error);
+    }
   };
 
   this.addMatch = async (userId, friendId, rating) => {

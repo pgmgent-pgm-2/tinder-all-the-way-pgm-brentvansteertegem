@@ -11,35 +11,43 @@
     <body>
         <section>
             <div id="users">
-                <h1>Users</h1>
+                <h1>USERS</h1>
                 <ul id="users_list" class="scrollable"></ul>
             </div>
             <section id="messages">
                 <div>
-                    <div id="inbox">
-                        <h1>Inbox</h1>
-                        <ul id="inbox_list" class="scrollable"></ul>
-                    </div>
-                    <div id="outbox">
-                        <h1>Outbox</h1>
-                        <ul id="outbox_list" class="scrollable"></ul>
+                    <h1>MESSAGES</h1>
+                    <div>                    
+                        <div id="inbox">
+                            <h1>INBOX</h1>
+                            <ul id="inbox_list" class="scrollable list"></ul>
+                        </div>
+                        <div id="outbox">
+                            <h1>OUTBOX</h1>
+                            <ul id="outbox_list" class="scrollable list"></ul>
+                        </div>
                     </div>
                 </div>
                 <div id="conversation">
-                    <h1>conversation</h1>
+                    <h1>CONVERSATION</h1>
                     <div>
-                        <ul id="conversation_chat" class="scrollable">
-
-                        </ul>
+                        <ul id="conversation_chat" class="scrollable"></ul>
                         <div id="add_message">
 
                         </div>
                     </div>
                 </div>
             </section>
-            <div id="matches">
-                <h1>Matches</h1>
-                <ul id="matches_list" class="scrollable"></ul>
+            <div id="match_maker">
+                <h1>MATCH MAKER</h1>
+                <div id="no_matches">
+                    <h1>NO MATCHES</h1>
+                    <ul id="no_matches_list" class="scrollable list"></ul>
+                </div>
+                <div id="matches">
+                    <h1>MATCHES</h1>
+                    <ul id="matches_list" class="scrollable list"></ul>
+                </div>
             </div>
         </section>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>

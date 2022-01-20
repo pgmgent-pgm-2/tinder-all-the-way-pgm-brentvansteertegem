@@ -36,9 +36,9 @@ const getUsers = () => {
     const users = readDataFromUsersFile();
     // Sort users alphabetically
     users.sort((a, b) => {
-      if (a.username > b.username) {
+      if (a.firstName > b.firstname) {
         return 1;
-      } if (a.username < b.username) {
+      } if (a.firstName < b.firstName) {
         return -1;
       }
       return 0;
@@ -60,7 +60,7 @@ const getUserById = (userId) => {
     }
     return user;
   } catch (error) {
-    throw new HTTPError('Can\'t get users!', 500);
+    throw new HTTPError(`Can't get user with id:'${userId}'`, 500);
   }
 };
 
@@ -82,7 +82,7 @@ const getMessages = () => {
     });
     return messages;
   } catch (error) {
-    throw new HTTPError('Can\'t get users!', 500);
+    throw new HTTPError('Can\'t get messages!', 500);
   }
 };
 
@@ -163,9 +163,10 @@ const getConversationBetweenUsers = (userId, friendId) => {
   try {
     const messages = readDataFromMessagesFile();
     // Filter messages based on user id
+    // eslint-disable-next-line no-mixed-operators, max-len
     const messagesBetweenUsers = messages.filter((msg) => msg.senderId === userId && msg.receiverId === friendId || msg.senderId === friendId && msg.receiverId === userId);
     if (!messagesBetweenUsers) {
-      throw new HTTPError(`Can't find sent messages from user with id:'${userId}'`, 404);
+      throw new HTTPError(`Can't find messages between users with id's:'${userId}' & '${friendId}'`, 404);
     }
     // Sort messages chronologically (from oldest to newest)
     messagesBetweenUsers.sort((a, b) => {
@@ -178,7 +179,53 @@ const getConversationBetweenUsers = (userId, friendId) => {
     });
     return messagesBetweenUsers;
   } catch (error) {
-    throw new HTTPError(`Can't get sent messages from user with id:'${userId}'`, 500);
+    throw new HTTPError(`Can't get messages between users with id's:'${userId}' & '${friendId}'`, 500);
+  }
+};
+
+// Read data from matches file
+const readDataFromMatchesFile = () => readDataFromFile(filePathMatches);
+
+// Get all matches
+const getMatches = () => {
+  try {
+    const matches = readDataFromMatchesFile();
+    // Sort matches chronologically (from newest to oldest)
+    matches.sort((a, b) => {
+      if (a.createdAt < b.createdAt) {
+        return 1;
+      } if (a.createdAt > b.createdAt) {
+        return -1;
+      }
+      return 0;
+    });
+    return matches;
+  } catch (error) {
+    throw new HTTPError('Can\'t get matches!', 500);
+  }
+};
+
+// Get all matches from a specific user
+const getMatchesForUser = (userId) => {
+  try {
+    const matches = readDataFromMatchesFile();
+    // Filter matches based on user id
+    const matchesFromUser = matches.filter((match) => match.userId === userId || match.friendId === userId);
+    if (!matchesFromUser) {
+      throw new HTTPError(`Can't find matches for user with id:'${userId}'`, 404);
+    }
+    // Sort matches chronologically (from newest to oldest)
+    matchesFromUser.sort((a, b) => {
+      if (a.createdAt < b.createdAt) {
+        return 1;
+      } if (a.createdAt > b.createdAt) {
+        return -1;
+      }
+      return 0;
+    });
+    return matchesFromUser;
+  } catch (error) {
+    throw new HTTPError(`Can't get matches for user with id:'${userId}'`, 500);
   }
 };
 
@@ -191,4 +238,6 @@ module.exports = {
   getReceivedMessagesFromUser,
   getSentMessagesFromUser,
   getConversationBetweenUsers,
+  getMatches,
+  getMatchesForUser,
 };

@@ -28,7 +28,7 @@ function TinderApi () {
     try {
       const response = await fetch(`${TINDER_BASE_PATH}/users/${userId}/messages?type=received`);
       const data = await response.json();
-      return data.filter((msg) => msg.receiverId === userId);
+      return data;
     } catch (error) {
       console.log('An error occured!', error);
     }
@@ -39,7 +39,7 @@ function TinderApi () {
     try {
       const response = await fetch(`${TINDER_BASE_PATH}/users/${userId}/messages?type=sent`);
       const data = await response.json();
-      return data.filter((msg) => msg.senderId === userId);
+      return data;
     } catch (error) {
       console.log('An error occured!', error);
     }
@@ -50,7 +50,7 @@ function TinderApi () {
     try {
       const response = await fetch(`${TINDER_BASE_PATH}/users/${userId}/messages?type=conversation&friendId=${friendId}`);
       const data = await response.json();
-      return data.filter((msg) => msg.senderId === userId && msg.receiverId === friendId || msg.senderId === friendId && msg.receiverId === userId);
+      return data;
     } catch (error) {
       console.log('An error occured!', error);
     }

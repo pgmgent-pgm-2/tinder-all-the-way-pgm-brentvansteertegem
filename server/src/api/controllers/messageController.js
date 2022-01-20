@@ -26,14 +26,29 @@ const getMessageById = (req, res, next) => {
 };
 
 /*
-Get messages from a specific user
+Get all messages from a specific user
 */
 const getMessagesFromUserById = (req, res, next) => {
   try {
     // Get userId from url
     const { userId } = req.params;
     // Get messages from user from dataService
-    const messages = dataService.getMessagesFromUser(userId);
+    let messages = null;
+    switch (req.query.type) {
+      case 'received':
+        messages = dataService.getReceivedMessagesFromUser(userId);
+        break;
+      case 'sent':
+        messages = dataService.getSentMessagesFromUser(userId);
+        break;
+      case 'conversation':
+        if (req.query.friendId) {
+          messages = dataService.getConversationBetweenUsers(userId, req.query.friendId);
+        }
+        break;
+      default:
+        messages = dataService.getMessagesFromUser(userId);
+    }
     // Send response
     res.status(200).json(messages);
   } catch (error) {

@@ -1,82 +1,109 @@
 body {
-    margin: 0;
-    min-width: 60rem;
+  margin: 0;
+  min-width: 60rem;
 }
 
 section {
-    display: flex;
+  display: flex;
 }
 
 div > h1 {
-  background-color: slategray;
-  margin: 0;
-  padding: 1rem;
-  font-size: 1.5rem;
+background-color: slategray;
+margin: 0;
+padding: 1rem;
+font-size: 1.5rem;
 }
 
 ul {
-  margin: 0;
-  list-style-type: none;
-  padding: 0;
+margin: 0;
+list-style-type: none;
+padding: 0;
 }
 
 li {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: #dddddd;
+margin-top: 1rem;
+padding: 1rem;
+background-color: #dddddd;
 }
 
-#users, #matches {
-    width: 20%;
-}
-
-#users, #messages > *, #matches {
-  min-width: 15rem;
-}
-
-#messages {
-    width: 60%;
-}
-
-#messages > div {
-  width: 30%;
-}
-
-#messages > #conversation {
-  width: 70%;
-}
-
-#conversation > div, .scrollable {
-  height: calc(100vh - 3.7rem);
-}
-@media (max-width: 60rem) {
-  #conversation > div, .scrollable {
-    height: calc(100vh - 4.8rem);
-  }
-}
-
-.scrollable {
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-#inbox_list.scrollable, #outbox_list.scrollable {
-  height: calc(50vh - 3.7rem);
-}
-@media (max-width: 60rem) {
-  #inbox_list.scrollable, #outbox_list.scrollable {
-    height: calc(50vh - 4.25rem);
-  }
-}
-
-#conversation_chat {
-  height: calc(100% - 5rem);
-}
-
-#add_message {
-  height: 5rem;
+a {
+text-decoration: none;
+color: black;
 }
 
 .selected {
-  background-color: #bbbbcc;
+background-color: #bbbbcc;
+}
+
+li:hover {
+background-color: #bbbbbb;
+}
+
+li.selected:hover {
+background-color: #bbbbcc;
+}
+
+#users, #matches {
+  width: 20%;
+}
+
+#users, #messages > *, #matches {
+min-width: 15rem;
+}
+
+#messages {
+  width: 60%;
+}
+
+#messages > div {
+width: 30%;
+}
+
+#inbox_list li section, #outbox_list li section {
+width: 100%;
+gap: 5%;
+}
+
+#inbox_list li section p:first-of-type, #outbox_list li section p:first-of-type {
+width: 70%;
+}
+
+#inbox_list li section p:last-of-type, #outbox_list li section p:last-of-type {
+text-align: right;
+width: 25%;
+}
+
+#messages > #conversation {
+width: 70%;
+}
+
+#conversation > div, .scrollable {
+height: calc(100vh - 3.7rem);
+}
+@media (max-width: 60rem) {
+#conversation > div, .scrollable {
+  height: calc(100vh - 4.8rem);
+}
+}
+
+.scrollable {
+overflow-y: scroll;
+overflow-x: hidden;
+}
+
+#inbox_list.scrollable, #outbox_list.scrollable {
+height: calc(50vh - 3.7rem);
+}
+@media (max-width: 60rem) {
+#inbox_list.scrollable, #outbox_list.scrollable {
+  height: calc(50vh - 4.25rem);
+}
+}
+
+#conversation_chat {
+height: calc(100% - 5rem);
+}
+
+#add_message {
+height: 5rem;
 }

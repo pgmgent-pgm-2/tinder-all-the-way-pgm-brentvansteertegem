@@ -106,7 +106,79 @@ const getMessagesFromUser = (userId) => {
     });
     return messagesFromUser;
   } catch (error) {
-    throw new HTTPError('Can\'t get users!', 500);
+    throw new HTTPError(`Can't get messages from user with id:'${userId}'`, 500);
+  }
+};
+
+// Get all received messages from a specific user
+const getReceivedMessagesFromUser = (userId) => {
+  try {
+    const messages = readDataFromMessagesFile();
+    // Filter messages based on user id
+    const receivedMessagesFromUser = messages.filter((msg) => msg.receiverId === userId);
+    if (!receivedMessagesFromUser) {
+      throw new HTTPError(`Can't find received messages for user with id:'${userId}'`, 404);
+    }
+    // Sort messages chronologically (from newest to oldest)
+    receivedMessagesFromUser.sort((a, b) => {
+      if (a.createdAt < b.createdAt) {
+        return 1;
+      } if (a.createdAt > b.createdAt) {
+        return -1;
+      }
+      return 0;
+    });
+    return receivedMessagesFromUser;
+  } catch (error) {
+    throw new HTTPError(`Can't get received messages from user with id:'${userId}'`, 500);
+  }
+};
+
+// Get all sent messages from a specific user
+const getSentMessagesFromUser = (userId) => {
+  try {
+    const messages = readDataFromMessagesFile();
+    // Filter messages based on user id
+    const sentMessagesFromUser = messages.filter((msg) => msg.senderId === userId);
+    if (!sentMessagesFromUser) {
+      throw new HTTPError(`Can't find sent messages from user with id:'${userId}'`, 404);
+    }
+    // Sort messages chronologically (from newest to oldest)
+    sentMessagesFromUser.sort((a, b) => {
+      if (a.createdAt < b.createdAt) {
+        return 1;
+      } if (a.createdAt > b.createdAt) {
+        return -1;
+      }
+      return 0;
+    });
+    return sentMessagesFromUser;
+  } catch (error) {
+    throw new HTTPError(`Can't get sent messages from user with id:'${userId}'`, 500);
+  }
+};
+
+// Get all messages between two users
+const getConversationBetweenUsers = (userId, friendId) => {
+  try {
+    const messages = readDataFromMessagesFile();
+    // Filter messages based on user id
+    const messagesBetweenUsers = messages.filter((msg) => msg.senderId === userId && msg.receiverId === friendId || msg.senderId === friendId && msg.receiverId === userId);
+    if (!messagesBetweenUsers) {
+      throw new HTTPError(`Can't find sent messages from user with id:'${userId}'`, 404);
+    }
+    // Sort messages chronologically (from oldest to newest)
+    messagesBetweenUsers.sort((a, b) => {
+      if (a.createdAt > b.createdAt) {
+        return 1;
+      } if (a.createdAt < b.createdAt) {
+        return -1;
+      }
+      return 0;
+    });
+    return messagesBetweenUsers;
+  } catch (error) {
+    throw new HTTPError(`Can't get sent messages from user with id:'${userId}'`, 500);
   }
 };
 
@@ -116,4 +188,7 @@ module.exports = {
   getUserById,
   getMessages,
   getMessagesFromUser,
+  getReceivedMessagesFromUser,
+  getSentMessagesFromUser,
+  getConversationBetweenUsers,
 };

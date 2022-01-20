@@ -51,7 +51,7 @@
           <a href="#">
             <section>
               <img src="${user.picture.thumbnail}" />
-              <span>${user.username}</span>
+              <span>${user.firstName} ${user.lastName}</span>
             </section>
           </a>
         </li>
@@ -89,7 +89,10 @@
         this.$inboxList.innerHTML = receivedMessages.map(msg => `
         <li data-msg_id="${msg.id}">
           <a href="#">
-            <span>${msg.senderId}</span>
+            <section>
+              <p>${this.users.find(user => user.id === msg.senderId).firstName} ${this.users.find(user => user.id === msg.senderId).lastName}</p>
+              <p>${moment(msg.createdAt).fromNow()}</p>
+            </section>
             <p>${msg.message}<p>
           </a>
         </li>
@@ -99,26 +102,26 @@
         this.$outboxList.innerHTML = sentMessages.map(msg => `
         <li data-msg_id="${msg.id}">
           <a href="#">
-            <span>${msg.receiverId}</span>
+          <section>
+          <p>${this.users.find(user => user.id === msg.receiverId).firstName} ${this.users.find(user => user.id === msg.receiverId).lastName}</p>
+          <p>${moment(msg.createdAt).fromNow()}</p>
+        </section>
             <p>${msg.message}<p>
           </a>
         </li>
         `).join('');
       },
       async getConversationBetweenUsers (messageId) {
-        // Determine the friendId based on the messgeId
-        if (this.receivedMessages.filter(m => m.id === messageId).length > 0){
-          this.friendId = this.receivedMessages.filter(m => m.id === messageId)[0].senderId;
+        // Determine the friendId based on the messageId
+        if (this.receivedMessages.find(m => m.id === messageId)){
+          this.friendId = this.receivedMessages.find(m => m.id === messageId).senderId;
         } else {
-          this.friendId = this.sentMessages.filter(m => m.id === messageId)[0].receiverId;
+          this.friendId = this.sentMessages.find(m => m.id === messageId).receiverId;
         }
         // Fetch the conversation between two users
         this.conversation = await this.tinderApi.getConversationBetweenUsers(this.currentUserId, this.friendId);
         // Load all messages between two users in the app
-        this.setChat (this.conversation);
-      },
-      async setChat (conversation) {
-        this.$conversation_chat.innerHTML = conversation.map(msg => `
+        this.$conversation_chat.innerHTML = this.conversation.map(msg => `
         <li data-chat-msg_id="${msg.id}">
           <a href="#">
             <span>${msg.message}<span>

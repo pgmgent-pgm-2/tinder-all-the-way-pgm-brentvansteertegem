@@ -27,6 +27,7 @@
         this.$usersList = document.querySelector('#users_list');
         this.$inboxList = document.querySelector('#inbox_list');
         this.$outboxList = document.querySelector('#outbox_list');
+        this.$conversationImage = document.querySelector('#conversation_image');
         this.$conversation_chat = document.querySelector('#conversation_chat');
         this.$add_message = document.querySelector('#add_message')        
         this.$matchesList = document.querySelector('#matches_list');
@@ -55,10 +56,9 @@
           const createdMessage = await this.tinderApi.addMessageBetweenUsers(messageToCreate);
           ev.target['new_message'].value='';
           // Update the outbox for the active user
-          // Fetch the sent messages for the active user
           this.sentMessages = await this.tinderApi.getSentMessagesFromUser(this.currentUserId);
-          // Load all sent messages from the user in the app
           this.setOutbox(this.sentMessages);
+          this.$outboxList.scrollTop = 0;
           // Update the conversation
           this.setConversationBetweenUsers(createdMessage.id);
         });
@@ -160,11 +160,13 @@
         } else {
           this.friendId = this.sentMessages.find(m => m.id === messageId).receiverId;
         }
+        // Set the friend's picture
+        this.$conversationImage.src = this.users.find(user => user.id === this.friendId).picture.thumbnail;
         // Fetch the conversation between two users
         this.conversation = await this.tinderApi.getConversationBetweenUsers(this.currentUserId, this.friendId);
         // Load all messages between two users in the app
         this.$conversation_chat.innerHTML = this.conversation.map(msg => `
-        <li data-chat-msg_id="${msg.id}">
+        <li data-chat-msg_id="${msg.id}" class="${msg.senderId === this.currentUserId ? "userMessage" : "friendMessage"}">
           <a href="#">
             <span>${msg.message}<span>
           </a>

@@ -7,7 +7,14 @@ section {
   display: flex;
 }
 
-div > h1 {
+h1 {
+  background-color: slategray;
+  margin: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+h2 {
   background-color: slategray;
   margin: 0;
   padding: 1rem;
@@ -31,32 +38,30 @@ a {
   color: black;
 }
 
-.selected {
-  background-color: #bbbbcc;
-}
-
-li:hover {
+#users_list li:hover, #inbox_list li:hover, #outbox_list li:hover {
   background-color: #bbbbbb;
 }
 
-li.selected:hover {
-  background-color: #bbbbcc;
+.selected, .userMessage {
+  background-color: #b0b0c0;
+}
+
+#users_list li.selected:hover {
+  background-color: #b0b0c0;
 }
 
 #users, #match_maker {
-  width: 20%;
-}
-
-#users, #messages > *, #match_maker {
-  min-width: 15rem;
+  width: 14rem;
 }
 
 #messages {
-  width: 60%;
+  width: calc(100% - 28rem);
 }
 
-#messages > div {
+#messages > div:first-of-type {
   width: 30%;
+  min-width: 14rem;
+  max-width: 21rem;
 }
 
 #messages > div:first-of-type > div, #conversation > div, .scrollable, #match_maker {
@@ -91,16 +96,41 @@ li.selected:hover {
   width: 25%;
 }
 
-#messages > #conversation {
-  width: 70%;
+#conversation {
+  width: 100%;
+}
+
+#conversation > section {
+  justify-content: space-between;
+  background-color: slategray;
+}
+
+#conversation_image {
+  width: 3rem;
+  height: 3rem;
 }
 
 #conversation_chat {
   height: calc(100% - 5rem);
 }
 
-#add_message {
-  height: 5rem;
+#conversation_chat li {
+  width: fit-content;
+  max-width: 33vw;
+}
+
+.userMessage {
+  margin-left: auto;
+}
+
+#new_message {
+  width: 100%;
+  height: 4.6rem;
+}
+
+#submit_message {
+  width: 8rem;
+  height: 3rem;
 }
 
 .scrollable {

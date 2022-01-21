@@ -52,9 +52,7 @@
             receiverId: this.friendId,
             message: ev.target['new_message'].value,
           }
-          console.log(messageToCreate);
           const createdMessage = await this.tinderApi.addMessageBetweenUsers(messageToCreate);
-          
           ev.target['new_message'].value='';
         });
       },

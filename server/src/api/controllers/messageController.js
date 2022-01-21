@@ -5,6 +5,21 @@ const dataService = require('../../services/dataService');
 const { HTTPError, handleHTTPError } = require('../../utils');
 
 /*
+Create a new message
+*/
+const createMessage = (req, res, next) => {
+  try {
+    // Get body from request
+    const message = req.body;
+    // Create a message
+    const createdMessage = dataService.createMessage(message);
+    res.status(201).json(createdMessage);
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
+};
+
+/*
 Get all messages
 */
 const getMessages = (req, res, next) => {
@@ -51,21 +66,6 @@ const getMessagesFromUserById = (req, res, next) => {
     }
     // Send response
     res.status(200).json(messages);
-  } catch (error) {
-    handleHTTPError(error, next);
-  }
-};
-
-/*
-Create a new message
-*/
-const createMessage = (req, res, next) => {
-  try {
-    // Get body from request
-    const message = req.body;
-    // Create a message
-    const createdMessage = dataService.createMessage(message);
-    res.status(201).json(createdMessage);
   } catch (error) {
     handleHTTPError(error, next);
   }

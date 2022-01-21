@@ -63,9 +63,13 @@ function TinderApi () {
       const response = await fetch(`${TINDER_BASE_PATH}/messages`, {
         method: 'POST',
         mode: 'cors',
+        headers: {
+          "Content-Type": "Application/Json"
+        },
         body: JSON.stringify(message),
       });
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (error) {
       console.log('An error occured!', error);
@@ -88,6 +92,9 @@ function TinderApi () {
       const response = await fetch(`${TINDER_BASE_PATH}/matches`, {
         method: 'POST',
         mode: 'cors',
+        headers: {
+          "Content-Type": "Application/Json"
+        },
         body: JSON.stringify(match),
       });
       const data = await response.json();

@@ -58,7 +58,6 @@ function TinderApi () {
 
   // Add a message between two users
   this.addMessageBetweenUsers = async (message) => {
-    console.log(message);
     try {
       const response = await fetch(`${TINDER_BASE_PATH}/messages`, {
         method: 'POST',
@@ -69,7 +68,6 @@ function TinderApi () {
         body: JSON.stringify(message),
       });
       const data = await response.json();
-      console.log(data);
       return data;
     } catch (error) {
       console.log('An error occured!', error);

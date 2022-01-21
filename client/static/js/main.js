@@ -54,6 +54,13 @@
           }
           const createdMessage = await this.tinderApi.addMessageBetweenUsers(messageToCreate);
           ev.target['new_message'].value='';
+          // Update the outbox for the active user
+          // Fetch the sent messages for the active user
+          this.sentMessages = await this.tinderApi.getSentMessagesFromUser(this.currentUserId);
+          // Load all sent messages from the user in the app
+          this.setOutbox(this.sentMessages);
+          // Update the conversation
+          this.setConversationBetweenUsers(createdMessage.id);
         });
       },
       async fetchUsers () {

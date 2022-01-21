@@ -45,7 +45,15 @@ const getMatchesFromUserById = (req, res, next) => {
 Create a new match
 */
 const createMatch = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get body from request
+    const match = req.body;
+    // Create a match
+    const createdMatch = dataService.createMatch(match);
+    res.status(201).json(createdMatch);
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 /*

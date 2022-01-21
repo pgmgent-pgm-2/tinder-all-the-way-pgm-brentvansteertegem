@@ -49,12 +49,12 @@ const getUsers = () => {
   }
 };
 
-// Get all messages from a specific user
+// Get a specific user
 const getUserById = (userId) => {
   try {
     const users = readDataFromUsersFile();
-    // Filter users based on user id
-    const user = users.filter((u) => u.id === userId);
+    // Find a user based on user id
+    const user = users.find((u) => u.id === userId);
     if (!user) {
       throw new HTTPError(`Can't find user with id:'${userId}'`, 404);
     }
@@ -183,6 +183,26 @@ const getConversationBetweenUsers = (userId, friendId) => {
   }
 };
 
+const createMessage = (message) => {
+  try {
+    // Get all messages
+    const messages = readDataFromMessagesFile();
+    // Create message
+    const messageToCreate = {
+      id: uuidv4(),
+      ...message,
+      createdAt: Date.now(),
+    };
+    messages.push(messageToCreate);
+    // Write messages to messages.json
+    fs.writeFileSync(filePathMessages, JSON.stringify(messages, null, 2));
+    // Return the created message
+    return messageToCreate;
+  } catch (error) {
+    throw new HTTPError('Can\'t create message', 500);
+  }
+};
+
 // Read data from matches file
 const readDataFromMatchesFile = () => readDataFromFile(filePathMatches);
 
@@ -229,6 +249,25 @@ const getMatchesForUser = (userId) => {
   }
 };
 
+const createMatch = (match) => {
+  try {
+    // Get all matches
+    const matches = readDataFromMatchesFile();
+    // Create match
+    const matchToCreate = {
+      ...match,
+      createdAt: Date.now(),
+    };
+    matches.push(matchToCreate);
+    // Write messages to matches.json
+    fs.writeFileSync(filePathMatches, JSON.stringify(matches, null, 2));
+    // Return the created message
+    return matchToCreate;
+  } catch (error) {
+    throw new HTTPError('Can\'t create match', 500);
+  }
+};
+
 // Export all the methods of the data service
 module.exports = {
   getUsers,
@@ -238,6 +277,8 @@ module.exports = {
   getReceivedMessagesFromUser,
   getSentMessagesFromUser,
   getConversationBetweenUsers,
+  createMessage,
   getMatches,
   getMatchesForUser,
+  createMatch,
 };

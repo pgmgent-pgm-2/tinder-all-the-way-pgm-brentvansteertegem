@@ -56,9 +56,23 @@ function TinderApi () {
     }
   };
 
-  this.addMessageBetweenUsers = async (userId, friendId, message) => {
+  // Add a message between two users
+  this.addMessageBetweenUsers = async (message) => {
+    console.log(message);
+    try {
+      const response = await fetch(`${TINDER_BASE_PATH}/messages`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(message),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log('An error occured!', error);
+    }
   };
 
+  // Get all matches for a specific user
   this.getMatchesForUser = async (userId) => {
     try {
       const response = await fetch(`${TINDER_BASE_PATH}/users/${userId}/matches`);
@@ -69,6 +83,17 @@ function TinderApi () {
     }
   };
 
-  this.addMatch = async (userId, friendId, rating) => {
+  this.addMatch = async (match) => {
+    try {
+      const response = await fetch(`${TINDER_BASE_PATH}/matches`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(match),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log('An error occured!', error);
+    }
   };
 }

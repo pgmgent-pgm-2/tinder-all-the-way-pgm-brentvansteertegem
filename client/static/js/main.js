@@ -28,6 +28,7 @@
         this.$inboxList = document.querySelector('#inbox_list');
         this.$outboxList = document.querySelector('#outbox_list');
         this.$conversation_chat = document.querySelector('#conversation_chat');
+        this.$add_message = document.querySelector('#add_message')        
         this.$matchesList = document.querySelector('#matches_list');
         this.$noMatchesList = document.querySelector('#no_matches_list');
       },
@@ -43,6 +44,18 @@
         this.$outboxList.addEventListener('click', ev => {
           const messageId = ev.target.dataset.msg_id || ev.target.parentNode.dataset.msg_id || ev.target.parentNode.parentNode.dataset.msg_id || ev.target.parentNode.parentNode.parentNode.dataset.msg_id;
           this.setConversationBetweenUsers(messageId);
+        });
+        this.$add_message.addEventListener('submit', async (ev) => {
+          ev.preventDefault();
+          const messageToCreate = {
+            senderId: this.currentUserId,
+            receiverId: this.friendId,
+            message: ev.target['new_message'].value,
+          }
+          console.log(messageToCreate);
+          const createdMessage = await this.tinderApi.addMessageBetweenUsers(messageToCreate);
+          
+          ev.target['new_message'].value='';
         });
       },
       async fetchUsers () {

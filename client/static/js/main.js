@@ -30,8 +30,8 @@
         this.$conversationImage = document.querySelector('#conversation_image');
         this.$conversation_chat = document.querySelector('#conversation_chat');
         this.$add_message = document.querySelector('#add_message')        
-        this.$matchesList = document.querySelector('#matches_list');
         this.$noMatchesList = document.querySelector('#no_matches_list');
+        this.$matchesList = document.querySelector('#matches_list');
       },
       registerListeners () {
         this.$usersList.addEventListener('click', ev => {
@@ -61,6 +61,22 @@
           this.$outboxList.scrollTop = 0;
           // Update the conversation
           this.setConversationBetweenUsers(createdMessage.id);
+        });
+        this.$noMatchesList.addEventListener('click', async ev => {
+          if (ev.target.dataset.type_rating) {
+            const matchToCreate = {
+              userId: this.currentUserId,
+              friendId: ev.target.parentNode.parentNode.dataset.match_id,
+              rating: ev.target.dataset.type_rating,
+            }
+            await this.tinderApi.addMatch(matchToCreate);
+            // Update the no-matches for the active user
+            this.matches = await this.tinderApi.getMatchesForUser(this.currentUserId);
+            this.setMatches(this.matches);
+            // Update the matches for the active user
+            this.noMatches = this.users.filter(user => !this.matches.find(match => match.userId === user.id || match.friendId === user.id));
+            this.setNoMatches(this.noMatches);
+          }
         });
       },
       async fetchUsers () {
@@ -167,33 +183,37 @@
         // Load all messages between two users in the app
         this.$conversation_chat.innerHTML = this.conversation.map(msg => `
         <li data-chat-msg_id="${msg.id}" class="${msg.senderId === this.currentUserId ? "userMessage" : "friendMessage"}">
-          <a href="#">
-            <span>${msg.message}<span>
-          </a>
-        </li>
-        `).join('');
-      },
-      async setMatches (matches) {
-        this.$matchesList.innerHTML = matches.map(match => `
-        <li data-match_id="${match.userId === this.currentUserId ? match.friendId : match.userId}">
-          <a href="#">
-            <section>
-              <p>${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).firstName : this.users.find(user => user.id === match.userId).firstName} ${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).lastName : this.users.find(user => user.id === match.userId).lastName}</p>
-            </section>
-            <p>${match.rating}<p>
-          </a>
+            <p>${msg.message}<p>
         </li>
         `).join('');
       },
       async setNoMatches (noMatches) {
         this.$noMatchesList.innerHTML = noMatches.map(noMatch => `
         <li data-match_id="${noMatch.id}">
-          <a href="#">
             <section>
-              <p>${noMatch.firstName} ${noMatch.lastName}</p>
+              <img src="${noMatch.picture.thumbnail}"/>
+              <div>
+                <span>${noMatch.firstName} ${noMatch.lastName}</span>
+                <span>${moment(noMatch.dayOfBirth).fromNow(true)}</span>
+              </div>
             </section>
-            <p><p>
-          </a>
+            <section>
+              <img src="static/media/icons/like.svg" data-type_rating="like" alt="like icon"/>
+              <img src="static/media/icons/superlike.svg" data-type_rating="superlike" alt="superlike icon"/>
+              <img src="static/media/icons/dislike.svg" data-type_rating="dislike" alt="dislike icon"/>
+            </section>
+        </li>
+        `).join('');
+      },
+      async setMatches (matches) {
+        this.$matchesList.innerHTML = matches.map(match => `
+        <li data-match_id="${match.userId === this.currentUserId ? match.friendId : match.userId}">
+            <span>${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).firstName : this.users.find(user => user.id === match.userId).firstName} ${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).lastName : this.users.find(user => user.id === match.userId).lastName}</span>
+            <section>
+              <img src="static/media/icons/${match.rating === "like" ? "liked" : "like"}.svg" data-type_rating="like" alt="${match.rating === "like" ? "liked" : "like"} icon"/>
+              <img src="static/media/icons/${match.rating === "superlike" ? "superliked" : "superlike"}.svg" data-type_rating="superlike" alt="${match.rating === "superlike" ? "superliked" : "superlike"} icon"/>
+              <img src="static/media/icons/${match.rating === "dislike" ? "disliked" : "dislike"}.svg" data-type_rating="dislike" alt="${match.rating === "dislike" ? "disliked" : "dislike"} icon"/>
+            </section>
         </li>
         `).join('');
       },

@@ -1,4 +1,5 @@
 body {
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   min-width: 60rem;
 }
@@ -8,14 +9,16 @@ section {
 }
 
 h1 {
-  background-color: slategray;
+  background-color: #dd4455;
+  color: white;
   margin: 0;
   padding: 1rem;
   font-size: 1.5rem;
 }
 
 h2 {
-  background-color: slategray;
+  background-color: #cc2222;
+  color: white;
   margin: 0;
   padding: 1rem;
   font-size: 1.5rem;
@@ -38,6 +41,22 @@ a {
   color: black;
 }
 
+#users, #match_maker {
+  width: 14rem;
+}
+
+#users {
+  border-right: 1px solid white;
+}
+
+#users_list li section, #match_maker li section:first-of-type {
+  gap: 0.5rem;
+}
+
+#users_list li section > span, #match_maker li section:first-of-type > *{
+  margin: auto 0;
+}
+
 #users_list li:hover, #inbox_list li:hover, #outbox_list li:hover {
   background-color: #bbbbbb;
 }
@@ -50,10 +69,6 @@ a {
   background-color: #b0b0c0;
 }
 
-#users, #match_maker {
-  width: 14rem;
-}
-
 #messages {
   width: calc(100% - 28rem);
 }
@@ -62,15 +77,16 @@ a {
   width: 30%;
   min-width: 14rem;
   max-width: 21rem;
+  border-right: 1px solid white;
 }
 
 #messages > div:first-of-type > div, #conversation > div, .scrollable, #match_maker {
-  height: calc(100vh - 3.7rem);
+  height: calc(100vh - 3.77rem);
 }
 
 @media (max-width: 60rem) {
   #messages > div:first-of-type > div, #conversation > div, .scrollable, #match_maker {
-    height: calc(100vh - 4.8rem);
+    height: calc(100vh - 4.9rem);
   }
 }
 
@@ -98,16 +114,19 @@ a {
 
 #conversation {
   width: 100%;
+  border-right: 1px solid white;
 }
 
 #conversation > section {
   justify-content: space-between;
-  background-color: slategray;
+  background-color: #dd4455;
 }
 
 #conversation_image {
   width: 3rem;
   height: 3rem;
+  margin-top: 0.34rem;
+  margin-right: 0.34rem;
 }
 
 #conversation_chat {
@@ -116,7 +135,7 @@ a {
 
 #conversation_chat li {
   width: fit-content;
-  max-width: 33vw;
+  max-width: 65%;
 }
 
 .userMessage {
@@ -125,12 +144,50 @@ a {
 
 #new_message {
   width: 100%;
-  height: 4.6rem;
+  height: 2.92rem;
+  max-height: 2.92rem;
+  padding: 1rem;
+  resize: none;
 }
 
 #submit_message {
   width: 8rem;
   height: 3rem;
+}
+
+#match_maker li section:first-of-type span {
+  display: block;
+}
+
+#match_maker li section:last-of-type {
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+#match_maker li section:first-of-type img {
+  height: 3rem;
+  width: 3rem;
+}
+
+#match_maker li section:last-of-type img {
+  width: 2rem;
+  height: 2rem;
+}
+
+#match_maker li section:last-of-type img:hover {
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-top: -0.5rem;
+}
+
+#match_maker li section:last-of-type img:first-of-type, #match_maker li section:last-of-type img:last-of-type {
+  width: 1.5rem;
+}
+
+#match_maker li section:last-of-type img:first-of-type:hover, #match_maker li section:last-of-type img:last-of-type:hover {
+  width: 2rem;
+  margin-top: -0.5rem;
 }
 
 .scrollable {

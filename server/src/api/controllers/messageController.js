@@ -37,7 +37,16 @@ const getMessages = (req, res, next) => {
 Get a specific message
 */
 const getMessageById = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get messageId from url
+    const { messageId } = req.params;
+    // Get message from dataService
+    const message = dataService.getMessageById(messageId);
+    // Send response
+    res.status(200).json(message);
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 /*
@@ -88,9 +97,9 @@ const deleteMessage = (req, res, next) => {
 // Export the action methods = callbacks
 module.exports = {
   createMessage,
-  deleteMessage,
   getMessages,
   getMessageById,
   getMessagesFromUserById,
   updateMessage,
+  deleteMessage,
 };

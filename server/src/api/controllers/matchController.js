@@ -22,11 +22,20 @@ const getMatches = (req, res, next) => {
 Get a specific match
 */
 const getMatchByIds = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get sender id and reciver id from url
+    const { senderId, receiverId } = req.params;
+    // Get matches from user from dataService
+    const match = dataService.getMatchByIds(senderId, receiverId);
+    // Send response
+    res.status(200).json(match);
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 /*
-Get matches from a specific user
+Get all matches from a specific user
 */
 const getMatchesFromUserById = (req, res, next) => {
   try {

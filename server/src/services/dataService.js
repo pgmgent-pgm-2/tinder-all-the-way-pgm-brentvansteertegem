@@ -86,6 +86,21 @@ const getMessages = () => {
   }
 };
 
+// Get a specific message
+const getMessageById = (messageId) => {
+  try {
+    const messages = readDataFromMessagesFile();
+    // Find a message based on message id
+    const message = messages.find((msg) => msg.id === messageId);
+    if (!message) {
+      throw new HTTPError(`Can't find message with id:'${messageId}'`, 404);
+    }
+    return message;
+  } catch (error) {
+    throw new HTTPError(`Can't get user with id:'${messageId}'`, 500);
+  }
+};
+
 // Get all messages from a specific user
 const getMessagesFromUser = (userId) => {
   try {
@@ -183,6 +198,7 @@ const getConversationBetweenUsers = (userId, friendId) => {
   }
 };
 
+// Create a new message
 const createMessage = (message) => {
   try {
     // Get all messages
@@ -249,6 +265,23 @@ const getMatchesForUser = (userId) => {
   }
 };
 
+// Get a specific match based on sender id and receiver id
+const getMatchByIds = (senderId, receiverId) => {
+  try {
+    const matches = readDataFromMatchesFile();
+    // Find match based on sender id and receiver id
+    // eslint-disable-next-line max-len, no-mixed-operators
+    const match = matches.find((m) => m.userId === senderId && m.friendId === receiverId || m.userId === receiverId && m.friendId === senderId);
+    if (!match) {
+      throw new HTTPError(`Can't find match for users with id's: '${senderId}' and '${receiverId}'`, 404);
+    }
+    return match;
+  } catch (error) {
+    throw new HTTPError(`Can't get match for users with id's: '${senderId}' and '${receiverId}'`, 500);
+  }
+};
+
+// Create a new match
 const createMatch = (match) => {
   try {
     // Get all matches
@@ -273,6 +306,7 @@ module.exports = {
   getUsers,
   getUserById,
   getMessages,
+  getMessageById,
   getMessagesFromUser,
   getReceivedMessagesFromUser,
   getSentMessagesFromUser,
@@ -280,5 +314,6 @@ module.exports = {
   createMessage,
   getMatches,
   getMatchesForUser,
+  getMatchByIds,
   createMatch,
 };

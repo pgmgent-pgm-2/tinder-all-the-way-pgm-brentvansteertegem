@@ -218,7 +218,7 @@
               <img src="${noMatch.picture.thumbnail}"/>
               <div>
                 <span>${noMatch.firstName} ${noMatch.lastName}</span>
-                <span>${moment(noMatch.dayOfBirth).fromNow(true)}</span>
+                <span>${moment(noMatch.dayOfBirth).fromNow(true).slice(0,2)} jaar oud</span>
               </div>
             </section>
             <span><span>${noMatch.location.city}</span> - <span>${noMatch.location.country}</span></span>
@@ -237,7 +237,7 @@
             <img src="${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).picture.thumbnail : this.users.find(user => user.id === match.userId).picture.thumbnail}"/>
             <div>
               <span>${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).firstName : this.users.find(user => user.id === match.userId).firstName} ${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).lastName : this.users.find(user => user.id === match.userId).lastName}</span>
-              <span>${match.userId === this.currentUserId ? moment(this.users.find(user => user.id === match.friendId).dateOfBirth).fromNow(true) : moment(this.users.find(user => user.id === match.userId).dateOfBirth).fromNow(true)}</span>
+              <span>${match.userId === this.currentUserId ? moment(this.users.find(user => user.id === match.friendId).dayOfBirth).fromNow(true).slice(0,2) : moment(this.users.find(user => user.id === match.userId).dayOfBirth).fromNow(true).slice(0,2)} jaar oud</span>
             </div>
           </section>
           <span><span>${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).location.city : this.users.find(user => user.id === match.userId).location.city}</span> - <span>${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).location.country : this.users.find(user => user.id === match.userId).location.country}</span></span>

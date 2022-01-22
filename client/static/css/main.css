@@ -9,7 +9,7 @@ section {
 }
 
 h1 {
-  background-color: #dd4455;
+  background-color: #cc2222;
   color: white;
   margin: 0;
   padding: 1rem;
@@ -17,7 +17,7 @@ h1 {
 }
 
 h2 {
-  background-color: #cc2222;
+  background-color: #dd4455;
   color: white;
   margin: 0;
   padding: 1rem;
@@ -65,7 +65,7 @@ a {
   background-color: #b0b0c0;
 }
 
-#users_list li.selected:hover {
+#users_list li.selected:hover, #inbox_list li.selected:hover, #outbox_list li.selected:hover {
   background-color: #b0b0c0;
 }
 
@@ -83,12 +83,21 @@ a {
 #messages > div:first-of-type > div, #conversation > div, .scrollable, #match_maker {
   height: calc(100vh - 3.77rem);
 }
-
 @media (max-width: 60rem) {
-  #messages > div:first-of-type > div, #conversation > div, .scrollable, #match_maker {
+  #messages > div:first-of-type > div, .scrollable, #match_maker {
     height: calc(100vh - 4.9rem);
   }
 }
+@media (max-width: 80rem) {
+#conversation > div {
+    height: calc(100vh - 7.52rem);
+  }
+}
+@media (max-width: 60rem) {
+  #conversation > div {
+      height: calc(100vh - 8.58rem);
+    }
+  }
 
 #messages > div:first-of-type > div > div, #match_maker > div{
   height: 50%;
@@ -119,14 +128,33 @@ a {
 
 #conversation > section {
   justify-content: space-between;
-  background-color: #dd4455;
+  background-color: #cc2222;
 }
 
-#conversation_image {
+@media (max-width: 80rem) {
+  #conversation > section {
+    flex-direction: column;
+  }
+}
+
+#conversation > section > section > * {
+  margin: auto;
+}
+
+#conversation_partner {
+  background-color: inherit;
+  text-align: right;
+}
+@media (max-width: 80rem) {
+  #conversation > section > section > #conversation_partner {
+    margin-right: 0;
+  }
+}
+
+#conversation #conversation_image {
   width: 3rem;
   height: 3rem;
-  margin-top: 0.34rem;
-  margin-right: 0.34rem;
+  margin: auto 0.34rem;
 }
 
 #conversation_chat {
@@ -155,6 +183,10 @@ a {
   height: 3rem;
 }
 
+#match_maker li section:first-of-type {
+  margin-bottom: 0.5rem;
+}
+
 #match_maker li section:first-of-type span {
   display: block;
 }
@@ -174,7 +206,7 @@ a {
   height: 2rem;
 }
 
-#match_maker li section:last-of-type img:hover {
+#match_maker li section:last-of-type img:hover, #match_maker li section:last-of-type img.rated {
   cursor: pointer;
   width: 2.5rem;
   height: 2.5rem;
@@ -183,11 +215,14 @@ a {
 
 #match_maker li section:last-of-type img:first-of-type, #match_maker li section:last-of-type img:last-of-type {
   width: 1.5rem;
+  height: 1.5rem;
+  margin-top: auto;
 }
 
-#match_maker li section:last-of-type img:first-of-type:hover, #match_maker li section:last-of-type img:last-of-type:hover {
+#match_maker li section:last-of-type img:first-of-type:hover, #match_maker li section:last-of-type img:last-of-type:hover,
+#match_maker li section:last-of-type img:first-of-type.rated, #match_maker li section:last-of-type img:last-of-type.rated {
   width: 2rem;
-  margin-top: -0.5rem;
+  height: 2rem;
 }
 
 .scrollable {

@@ -2,7 +2,7 @@
 Import custom packages
 */
 const dataService = require('../../services/dataService');
-const { HTTPError, handleHTTPError } = require('../../utils');
+const { handleHTTPError } = require('../../utils');
 
 /*
 Create a new message
@@ -84,14 +84,32 @@ const getMessagesFromUserById = (req, res, next) => {
 Update a specific message
 */
 const updateMessage = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get messageId from url
+    const { messageId } = req.params;
+    // Get body from request
+    const newInformation = req.body;
+    // Update message
+    const updatedMessage = dataService.updateMessage(messageId, newInformation);
+    res.status(200).json(updatedMessage);
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 /*
 Delete a specific message
 */
 const deleteMessage = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get message Id from url
+    const { messageId } = req.params;
+    // Delete message
+    dataService.deleteMessage(messageId);
+    res.status(204).json();
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 // Export the action methods = callbacks

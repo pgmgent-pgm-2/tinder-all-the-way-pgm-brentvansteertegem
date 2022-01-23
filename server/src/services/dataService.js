@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 /*
 Import custom packages
 */
-const { HTTPError, convertArrayToPagedObject } = require('../utils');
+const { HTTPError } = require('../utils');
 
 /*
 File paths
@@ -102,7 +102,7 @@ const updateUser = (userId, newInformation) => {
     users.splice(users.indexOf(users.find((u) => u.id === userId)), 1, updatedUser);
     // Write users to users.json
     fs.writeFileSync(filePathUsers, JSON.stringify(users, null, 2));
-    // Return the created user
+    // Return the updated user
     return updatedUser;
   } catch (error) {
     throw new HTTPError(`Can't update user with id:'${userId}'`, 500);
@@ -122,7 +122,6 @@ const deleteUser = (userId) => {
     users.splice(users.indexOf(users.find((u) => u.id === userId)), 1);
     // Write users to users.json
     fs.writeFileSync(filePathUsers, JSON.stringify(users, null, 2));
-    // Return the created user
     return null;
   } catch (error) {
     throw new HTTPError(`Can't delete user with id:'${userId}'`, 500);
@@ -156,13 +155,13 @@ const getMessageById = (messageId) => {
   try {
     const messages = readDataFromMessagesFile();
     // Find a message based on message id
-    const message = messages.find((msg) => msg.id === messageId);
+    const message = messages.find((m) => m.id === messageId);
     if (!message) {
       throw new HTTPError(`Can't find message with id:'${messageId}'`, 404);
     }
     return message;
   } catch (error) {
-    throw new HTTPError(`Can't get user with id:'${messageId}'`, 500);
+    throw new HTTPError(`Can't get message with id:'${messageId}'`, 500);
   }
 };
 
@@ -171,19 +170,20 @@ const getMessagesFromUser = (userId) => {
   try {
     const messages = readDataFromMessagesFile();
     // Filter messages based on user id
-    const messagesFromUser = messages.filter((msg) => msg.senderId === userId || msg.receiverId === userId);
+    const messagesFromUser = messages.filter((m) => m.senderId === userId || m.receiverId === userId);
     if (!messagesFromUser) {
       throw new HTTPError(`Can't find messages for user with id:'${userId}'`, 404);
-    }
-    // Sort messages chronologically (from newest to oldest)
-    messagesFromUser.sort((a, b) => {
-      if (a.createdAt < b.createdAt) {
-        return 1;
-      } if (a.createdAt > b.createdAt) {
-        return -1;
-      }
-      return 0;
-    });
+    } else {
+      // Sort messages chronologically (from newest to oldest)
+      messagesFromUser.sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return 1;
+        } if (a.createdAt > b.createdAt) {
+          return -1;
+        }
+        return 0;
+      });
+    }    
     return messagesFromUser;
   } catch (error) {
     throw new HTTPError(`Can't get messages from user with id:'${userId}'`, 500);
@@ -195,19 +195,20 @@ const getReceivedMessagesFromUser = (userId) => {
   try {
     const messages = readDataFromMessagesFile();
     // Filter messages based on user id
-    const receivedMessagesFromUser = messages.filter((msg) => msg.receiverId === userId);
+    const receivedMessagesFromUser = messages.filter((m) => m.receiverId === userId);
     if (!receivedMessagesFromUser) {
       throw new HTTPError(`Can't find received messages for user with id:'${userId}'`, 404);
+    } else {
+      // Sort messages chronologically (from newest to oldest)
+      receivedMessagesFromUser.sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return 1;
+        } if (a.createdAt > b.createdAt) {
+          return -1;
+        }
+        return 0;
+      });
     }
-    // Sort messages chronologically (from newest to oldest)
-    receivedMessagesFromUser.sort((a, b) => {
-      if (a.createdAt < b.createdAt) {
-        return 1;
-      } if (a.createdAt > b.createdAt) {
-        return -1;
-      }
-      return 0;
-    });
     return receivedMessagesFromUser;
   } catch (error) {
     throw new HTTPError(`Can't get received messages from user with id:'${userId}'`, 500);
@@ -219,19 +220,20 @@ const getSentMessagesFromUser = (userId) => {
   try {
     const messages = readDataFromMessagesFile();
     // Filter messages based on user id
-    const sentMessagesFromUser = messages.filter((msg) => msg.senderId === userId);
+    const sentMessagesFromUser = messages.filter((m) => m.senderId === userId);
     if (!sentMessagesFromUser) {
       throw new HTTPError(`Can't find sent messages from user with id:'${userId}'`, 404);
+    } else {
+      // Sort messages chronologically (from newest to oldest)
+      sentMessagesFromUser.sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return 1;
+        } if (a.createdAt > b.createdAt) {
+          return -1;
+        }
+        return 0;
+      });
     }
-    // Sort messages chronologically (from newest to oldest)
-    sentMessagesFromUser.sort((a, b) => {
-      if (a.createdAt < b.createdAt) {
-        return 1;
-      } if (a.createdAt > b.createdAt) {
-        return -1;
-      }
-      return 0;
-    });
     return sentMessagesFromUser;
   } catch (error) {
     throw new HTTPError(`Can't get sent messages from user with id:'${userId}'`, 500);
@@ -247,16 +249,17 @@ const getConversationBetweenUsers = (userId, friendId) => {
     const messagesBetweenUsers = messages.filter((msg) => msg.senderId === userId && msg.receiverId === friendId || msg.senderId === friendId && msg.receiverId === userId);
     if (!messagesBetweenUsers) {
       throw new HTTPError(`Can't find messages between users with id's:'${userId}' & '${friendId}'`, 404);
+    } else {
+      // Sort messages chronologically (from oldest to newest)
+      messagesBetweenUsers.sort((a, b) => {
+        if (a.createdAt > b.createdAt) {
+          return 1;
+        } if (a.createdAt < b.createdAt) {
+          return -1;
+        }
+        return 0;
+      });
     }
-    // Sort messages chronologically (from oldest to newest)
-    messagesBetweenUsers.sort((a, b) => {
-      if (a.createdAt > b.createdAt) {
-        return 1;
-      } if (a.createdAt < b.createdAt) {
-        return -1;
-      }
-      return 0;
-    });
     return messagesBetweenUsers;
   } catch (error) {
     throw new HTTPError(`Can't get messages between users with id's:'${userId}' & '${friendId}'`, 500);
@@ -281,6 +284,49 @@ const createMessage = (message) => {
     return messageToCreate;
   } catch (error) {
     throw new HTTPError('Can\'t create message', 500);
+  }
+};
+
+// Update a specific message
+const updateMessage = (messageId, newInformation) => {
+  try {
+    const messages = readDataFromMessagesFile();
+    // Find a message based on message id
+    const message = messages.find((m) => m.id === messageId);
+    if (!message) {
+      throw new HTTPError(`Can't find message with id:'${messageId}'`, 404);
+    }
+    // Update message
+    const updatedMessage = {
+      ...message,
+      ...newInformation,
+    };
+    messages.splice(messages.indexOf(messages.find((m) => m.id === messageId)), 1, updatedMessage);
+    // Write messages to messages.json
+    fs.writeFileSync(filePathMessages, JSON.stringify(messages, null, 2));
+    // Return the updated message
+    return updatedMessage;
+  } catch (error) {
+    throw new HTTPError(`Can't update message with id:'${messageId}'`, 500);
+  }
+};
+
+// Delete a specific user
+const deleteMessage = (messageId) => {
+  try {
+    const messages = readDataFromMessagesFile();
+    // Find a message based on message id
+    const message = messages.find((m) => m.id === messageId);
+    if (!message) {
+      throw new HTTPError(`Can't find message with id:'${messageId}'`, 404);
+    }
+    // Delete message
+    messages.splice(messages.indexOf(messages.find((m) => m.id === messageId)), 1);
+    // Write messages to messages.json
+    fs.writeFileSync(filePathMessages, JSON.stringify(messages, null, 2));
+    return null;
+  } catch (error) {
+    throw new HTTPError(`Can't delete messages with id:'${messageId}'`, 500);
   }
 };
 
@@ -380,6 +426,8 @@ module.exports = {
   getSentMessagesFromUser,
   getConversationBetweenUsers,
   createMessage,
+  updateMessage,
+  deleteMessage,
   getMatches,
   getMatchesForUser,
   getMatchByIds,

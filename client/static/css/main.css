@@ -131,9 +131,18 @@ a {
   background-color: #cc2222;
 }
 
-@media (max-width: 80rem) {
+@media (max-width: 73rem) {
   #conversation > section {
     flex-direction: column;
+  }
+}
+
+#conversation > section > section {
+  max-width: 19rem;
+}
+@media (max-width: 73rem) {
+  #conversation > section > section {
+    margin-left: auto;
   }
 }
 
@@ -208,9 +217,9 @@ a {
 
 #match_maker li section:last-of-type img:hover, #match_maker li section:last-of-type img.rated {
   cursor: pointer;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-top: -0.5rem;
+  width: 3rem;
+  height: 3rem;
+  margin-top: -1rem;
 }
 
 #match_maker li section:last-of-type img:first-of-type, #match_maker li section:last-of-type img:last-of-type {
@@ -221,8 +230,9 @@ a {
 
 #match_maker li section:last-of-type img:first-of-type:hover, #match_maker li section:last-of-type img:last-of-type:hover,
 #match_maker li section:last-of-type img:first-of-type.rated, #match_maker li section:last-of-type img:last-of-type.rated {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-top: -0.5rem;
 }
 
 .scrollable {

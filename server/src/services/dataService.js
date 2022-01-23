@@ -64,6 +64,71 @@ const getUserById = (userId) => {
   }
 };
 
+// Create a new user
+const createUser = (user) => {
+  try {
+    // Get all users
+    const users = readDataFromUsersFile();
+    // Create user
+    const userToCreate = {
+      id: uuidv4(),
+      ...user,
+      createdAt: Date.now(),
+    };
+    users.push(userToCreate);
+    // Write users to users.json
+    fs.writeFileSync(filePathUsers, JSON.stringify(users, null, 2));
+    // Return the created user
+    return userToCreate;
+  } catch (error) {
+    throw new HTTPError('Can\'t create user', 500);
+  }
+};
+
+// Update a specific user
+const updateUser = (userId, newInformation) => {
+  try {
+    const users = readDataFromUsersFile();
+    // Find a user based on user id
+    const user = users.find((u) => u.id === userId);
+    if (!user) {
+      throw new HTTPError(`Can't find user with id:'${userId}'`, 404);
+    }
+    // Update user
+    const updatedUser = {
+      ...user,
+      ...newInformation,
+    };
+    users.splice(users.indexOf(users.find((u) => u.id === userId)), 1, updatedUser);
+    // Write users to users.json
+    fs.writeFileSync(filePathUsers, JSON.stringify(users, null, 2));
+    // Return the created user
+    return updatedUser;
+  } catch (error) {
+    throw new HTTPError(`Can't update user with id:'${userId}'`, 500);
+  }
+};
+
+// Delete a specific user
+const deleteUser = (userId) => {
+  try {
+    const users = readDataFromUsersFile();
+    // Find a user based on user id
+    const user = users.find((u) => u.id === userId);
+    if (!user) {
+      throw new HTTPError(`Can't find user with id:'${userId}'`, 404);
+    }
+    // Delete user
+    users.splice(users.indexOf(users.find((u) => u.id === userId)), 1);
+    // Write users to users.json
+    fs.writeFileSync(filePathUsers, JSON.stringify(users, null, 2));
+    // Return the created user
+    return null;
+  } catch (error) {
+    throw new HTTPError(`Can't delete user with id:'${userId}'`, 500);
+  }
+};
+
 // Read data from messages file
 const readDataFromMessagesFile = () => readDataFromFile(filePathMessages);
 
@@ -305,6 +370,9 @@ const createMatch = (match) => {
 module.exports = {
   getUsers,
   getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
   getMessages,
   getMessageById,
   getMessagesFromUser,

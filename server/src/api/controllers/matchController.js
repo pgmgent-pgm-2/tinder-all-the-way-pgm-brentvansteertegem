@@ -2,7 +2,7 @@
 Import custom packages
 */
 const dataService = require('../../services/dataService');
-const { HTTPError, handleHTTPError } = require('../../utils');
+const { handleHTTPError } = require('../../utils');
 
 /*
 Get all matches
@@ -25,7 +25,7 @@ const getMatchByIds = (req, res, next) => {
   try {
     // Get sender id and reciver id from url
     const { senderId, receiverId } = req.params;
-    // Get matches from user from dataService
+    // Get match between users from dataService
     const match = dataService.getMatchByIds(senderId, receiverId);
     // Send response
     res.status(200).json(match);
@@ -69,22 +69,42 @@ const createMatch = (req, res, next) => {
 Update a specific match
 */
 const updateMatch = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get sender id and reciver id from url
+    const { senderId, receiverId } = req.params;
+    // Get body from request
+    const newInformation = req.body;
+    // Update match
+    const updatedMatch = dataService.updateMatch(senderId, receiverId, newInformation);
+    // Send response
+    res.status(200).json(updatedMatch);
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 /*
 Delete a specific match
 */
 const deleteMatch = (req, res, next) => {
-  handleHTTPError(new HTTPError('The action method is not yet implemented!', 501), next);
+  try {
+    // Get sender id and reciver id from url
+    const { senderId, receiverId } = req.params;
+    // Delete match
+    dataService.deleteMatch(senderId, receiverId);
+    // Send response
+    res.status(204).json();
+  } catch (error) {
+    handleHTTPError(error, next);
+  }
 };
 
 // Export the action methods = callbacks
 module.exports = {
-  createMatch,
-  deleteMatch,
   getMatches,
   getMatchByIds,
   getMatchesFromUserById,
+  createMatch,
   updateMatch,
+  deleteMatch,
 };

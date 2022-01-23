@@ -183,7 +183,7 @@ const getMessagesFromUser = (userId) => {
         }
         return 0;
       });
-    }    
+    }
     return messagesFromUser;
   } catch (error) {
     throw new HTTPError(`Can't get messages from user with id:'${userId}'`, 500);
@@ -311,7 +311,7 @@ const updateMessage = (messageId, newInformation) => {
   }
 };
 
-// Delete a specific user
+// Delete a specific message
 const deleteMessage = (messageId) => {
   try {
     const messages = readDataFromMessagesFile();
@@ -352,24 +352,25 @@ const getMatches = () => {
   }
 };
 
-// Get all matches from a specific user
+// Get all matches for a specific user
 const getMatchesForUser = (userId) => {
   try {
     const matches = readDataFromMatchesFile();
     // Filter matches based on user id
-    const matchesFromUser = matches.filter((match) => match.userId === userId || match.friendId === userId);
+    const matchesFromUser = matches.filter((m) => m.userId === userId || m.friendId === userId);
     if (!matchesFromUser) {
       throw new HTTPError(`Can't find matches for user with id:'${userId}'`, 404);
+    } else {
+      // Sort matches chronologically (from newest to oldest)
+      matchesFromUser.sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return 1;
+        } if (a.createdAt > b.createdAt) {
+          return -1;
+        }
+        return 0;
+      });
     }
-    // Sort matches chronologically (from newest to oldest)
-    matchesFromUser.sort((a, b) => {
-      if (a.createdAt < b.createdAt) {
-        return 1;
-      } if (a.createdAt > b.createdAt) {
-        return -1;
-      }
-      return 0;
-    });
     return matchesFromUser;
   } catch (error) {
     throw new HTTPError(`Can't get matches for user with id:'${userId}'`, 500);
@@ -381,8 +382,8 @@ const getMatchByIds = (senderId, receiverId) => {
   try {
     const matches = readDataFromMatchesFile();
     // Find match based on sender id and receiver id
-    // eslint-disable-next-line max-len, no-mixed-operators
-    const match = matches.find((m) => m.userId === senderId && m.friendId === receiverId || m.userId === receiverId && m.friendId === senderId);
+    // eslint-disable-next-line max-len
+    const match = matches.find((m) => m.userId === senderId && m.friendId === receiverId);
     if (!match) {
       throw new HTTPError(`Can't find match for users with id's: '${senderId}' and '${receiverId}'`, 404);
     }
@@ -403,12 +404,59 @@ const createMatch = (match) => {
       createdAt: Date.now(),
     };
     matches.push(matchToCreate);
-    // Write messages to matches.json
+    // Write matches to matches.json
     fs.writeFileSync(filePathMatches, JSON.stringify(matches, null, 2));
-    // Return the created message
+    // Return the created match
     return matchToCreate;
   } catch (error) {
     throw new HTTPError('Can\'t create match', 500);
+  }
+};
+
+// Update a specific match
+const updateMatch = (senderId, receiverId, newInformation) => {
+  try {
+    const matches = readDataFromMatchesFile();
+    // Find match based on sender id and receiver id
+    // eslint-disable-next-line max-len
+    const match = matches.find((m) => m.userId === senderId && m.friendId === receiverId);
+    if (!match) {
+      throw new HTTPError(`Can't find match for users with id's: '${senderId}' and '${receiverId}'`, 404);
+    }
+    // Update match
+    const updatedMatch = {
+      ...match,
+      ...newInformation,
+    };
+    // eslint-disable-next-line max-len
+    matches.splice(matches.indexOf(matches.find((m) => m.userId === senderId && m.friendId === receiverId)), 1, updatedMatch);
+    // Write matches to matches.json
+    fs.writeFileSync(filePathMatches, JSON.stringify(matches, null, 2));
+    // Return the updated match
+    return updatedMatch;
+  } catch (error) {
+    throw new HTTPError('Can\'t update match', 500);
+  }
+};
+
+// Delete a specific match
+const deleteMatch = (senderId, receiverId) => {
+  try {
+    const matches = readDataFromMatchesFile();
+    // Find match based on sender id and receiver id
+    // eslint-disable-next-line max-len
+    const match = matches.find((m) => m.userId === senderId && m.friendId === receiverId);
+    if (!match) {
+      throw new HTTPError(`Can't find match for users with id's: '${senderId}' and '${receiverId}'`, 404);
+    }
+    // eslint-disable-next-line max-len
+    matches.splice(matches.indexOf(matches.find((m) => m.userId === senderId && m.friendId === receiverId)), 1);
+    // Write matches to matches.json
+    fs.writeFileSync(filePathMatches, JSON.stringify(matches, null, 2));
+    // Return the updated match
+    return null;
+  } catch (error) {
+    throw new HTTPError('Can\'t delete match', 500);
   }
 };
 
@@ -432,4 +480,6 @@ module.exports = {
   getMatchesForUser,
   getMatchByIds,
   createMatch,
+  updateMatch,
+  deleteMatch,
 };

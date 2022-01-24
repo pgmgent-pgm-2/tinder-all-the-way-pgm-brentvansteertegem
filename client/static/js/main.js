@@ -117,12 +117,8 @@
         this.sentMessages = await this.tinderApi.getSentMessagesFromUser(userId);
         // Load all sent messages from the user in the app
         this.setOutbox(this.sentMessages);
-        // Get The most recent message of the active user
-        if (this.receivedMessages[0].createdAt >= this.sentMessages[0].createdAt) {
-          this.setConversationBetweenUsers(this.receivedMessages[0].id);
-        } else {
-          this.setConversationBetweenUsers(this.sentMessages[0].id);
-        }
+        // Set the most recent conversation of the active user based on incoming messages
+        this.setConversationBetweenUsers(this.receivedMessages[0].id);
         this.matches = await this.tinderApi.getMatchesForUser(userId);
         this.setMatches(this.matches);
         this.noMatches = this.users.filter(user => !this.matches.find(match => match.userId === user.id || match.friendId === user.id));

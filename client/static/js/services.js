@@ -1,4 +1,4 @@
-const TINDER_BASE_PATH = 'http://localhost:4040/api';
+const TINDER_BASE_PATH = 'http://localhost:8080/api';
 
 function TinderApi () {
   // Get all users

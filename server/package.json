@@ -7,7 +7,7 @@
     "dev": "nodemon -e js,html,nj src/app.js --watch src/*",
     "lint": "eslint . --ext .js --fix",
     "seed": "node src/seeder/index.js",
-    "test": "cross-env NODE_ENV=test HOSTNAME=localhost PORT=8081 jest --detectOpenHandles --maxWorkers=1 --watchAll --forceExit"
+    "test": "cross-env NODE_ENV=test HOSTNAME=localhost PORT=4040 jest --detectOpenHandles --maxWorkers=1 --watchAll --forceExit"
   },
   "keywords": [
     "pgm",

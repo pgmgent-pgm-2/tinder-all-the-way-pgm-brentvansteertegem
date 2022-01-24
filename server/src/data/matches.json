@@ -30,12 +30,6 @@
     "createdAt": 1609528228576
   },
   {
-    "userId": "679e8f13-f384-43a1-bef0-40059e5657f2",
-    "friendId": "326400e6-af2f-49cb-bf14-d509369b4594",
-    "rating": "superlike",
-    "createdAt": 1609528228576
-  },
-  {
     "userId": "c0fed28e-cc96-4d40-bebf-54832ff00ec3",
     "friendId": "277527c4-c9ab-4cb3-b744-95368aa19fda",
     "rating": "superlike",
@@ -3418,5 +3412,11 @@
     "friendId": "c0fed28e-cc96-4d40-bebf-54832ff00ec3",
     "rating": "like",
     "createdAt": 1609531906929
+  },
+  {
+    "userId": "679e8f13-f384-43a1-bef0-40059e5657f2",
+    "friendId": "326400e6-af2f-49cb-bf14-d509369b4594",
+    "rating": "like",
+    "createdAt": 1643017746518
   }
 ]

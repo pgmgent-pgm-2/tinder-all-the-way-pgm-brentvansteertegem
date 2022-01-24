@@ -17,7 +17,7 @@ h1 {
 }
 
 h2 {
-  background-color: #dd4455;
+  background-color: #ff5669;
   color: white;
   margin: 0;
   padding: 1rem;
@@ -233,6 +233,18 @@ a {
   width: 2.5rem;
   height: 2.5rem;
   margin-top: -0.5rem;
+}
+
+#matches_list li > p:last-of-type {
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0.5rem 0;
+  margin-bottom: 1.5rem;
+}
+
+#matches_list li > p:last-of-type > span{
+  display: block;
 }
 
 .scrollable {

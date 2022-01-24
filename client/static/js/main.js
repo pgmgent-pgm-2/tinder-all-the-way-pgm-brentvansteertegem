@@ -71,10 +71,10 @@
               rating: ev.target.dataset.type_rating,
             }
             await this.tinderApi.addMatch(matchToCreate);
-            // Update the no-matches for the active user
+            // Update the matches for the active user
             this.matches = await this.tinderApi.getMatchesForUser(this.currentUserId);
             this.setMatches(this.matches);
-            // Update the matches for the active user
+            // Update the no-matches for the active user
             this.noMatches = this.users.filter(user => !this.matches.find(match => match.userId === user.id || match.friendId === user.id));
             this.setNoMatches(this.noMatches);
           }
@@ -241,10 +241,11 @@
             </div>
           </section>
           <span><span>${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).location.city : this.users.find(user => user.id === match.userId).location.city}</span> - <span>${match.userId === this.currentUserId ? this.users.find(user => user.id === match.friendId).location.country : this.users.find(user => user.id === match.userId).location.country}</span></span>
+          <p>${match.userId === this.currentUserId ? 'You rated them with:' : '<span>They liked you,</span><span>like them back!</span>'}</p>
           <section>
-            <img src="static/media/icons/like.png" ${match.rating === "like" ? 'class="rated" ': ""}data-type_rating="like" alt="like icon"/>
-            <img src="static/media/icons/superlike.png" ${match.rating === "superlike" ? 'class="rated" ': ""}data-type_rating="superlike" alt="superlike icon"/>
-            <img src="static/media/icons/dislike.png" ${match.rating === "dislike" ? 'class="rated" ': ""}data-type_rating="dislike" alt="dislike icon"/>
+            <img src="static/media/icons/like.png" ${match.userId === this.currentUserId && match.rating === "like" ? 'class="rated" ': ''}data-type_rating="like" alt="like icon"/>
+            <img src="static/media/icons/superlike.png" ${match.userId === this.currentUserId && match.rating === "superlike" ? 'class="rated" ': ''}data-type_rating="superlike" alt="superlike icon"/>
+            <img src="static/media/icons/dislike.png" ${match.userId === this.currentUserId && match.rating === "dislike" ? 'class="rated" ': ''}data-type_rating="dislike" alt="dislike icon"/>
           </section>        
         </li>
         `).join('');

@@ -85,6 +85,7 @@ function TinderApi () {
     }
   };
 
+  // Create a match between two users
   this.addMatch = async (match) => {
     try {
       const response = await fetch(`${TINDER_BASE_PATH}/matches`, {
